@@ -33,6 +33,8 @@ public class BlackjackApiController {
         User currentUser = userRepository.getOne(user.getName());
         //second push deploy check
         System.out.println(user.getName());
+        //third push deploy check
+        System.out.println(user.getName());
         return blackjackService.createGameRoom(currentUser);
     }
 
