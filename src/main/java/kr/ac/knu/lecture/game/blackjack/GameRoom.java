@@ -60,8 +60,9 @@ public class GameRoom {
 
     public Card hit(String name) {
         Player player = playerList.get(name);
-
-        return player.hitCard();
+        Card card = player.hitCard();
+        isFinished = evaluator.isEnd();
+        return card;
     }
 
     public void stand(String name) {
