@@ -152,7 +152,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 return user.get();
             }
 
-            User newUser = new User(name, OAuthProvider.NAVER, id, 60000L);
+            User newUser = new User(name, OAuthProvider.NAVER, id, 50000L);
             return userRepository.save(newUser);
         };
     }
