@@ -62,6 +62,8 @@ public class GameRoom {
         Player player = playerList.get(name);
         Card card = player.hitCard();
         isFinished = evaluator.isEnd();
+        if(isFinished)
+            dealer.play();
         return card;
     }
 
