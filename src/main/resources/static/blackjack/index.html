@@ -394,7 +394,6 @@
         font-size: 21px;
     }
 </style>
-</head>
 <body>
 
 <div style="position: fixed; top: 0; left: 0;
@@ -554,9 +553,10 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             bet = money;
         }
 
-
-        $('#bet').html(currentBet + bet);
-        $('#money').html(money - bet);
+        if(currentBet<10000) {          // 배팅 상한선 10000원
+            $('#bet').html(currentBet + bet);
+            $('#money').html(money - bet);
+        }
 
     });
 
@@ -568,7 +568,7 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             bet = currentBet;
         }
 
-        if(currentBet>1000) {
+        if(currentBet>1000) {           // 배팅 하한선 1000원
             $('#bet').html(currentBet - bet);
             $('#money').html(money + bet);
         }
