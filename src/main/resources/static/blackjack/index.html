@@ -443,7 +443,7 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
     </div>
     <div class="betting-area">
         <b>Your Bet</b><br>
-        <div id="bet" class="bet money">0</div>
+        <div id="bet" class="bet money">1000</div>
         <div>
             <div class="btn" id="more">+</div>
             <div class="btn" id="less">-</div>
@@ -554,8 +554,10 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             bet = money;
         }
 
+
         $('#bet').html(currentBet + bet);
         $('#money').html(money - bet);
+
     });
 
     $('#less').click(function () {
@@ -566,8 +568,10 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             bet = currentBet;
         }
 
-        $('#bet').html(currentBet - bet);
-        $('#money').html(money + bet);
+        if(currentBet>1000) {
+            $('#bet').html(currentBet - bet);
+            $('#money').html(money + bet);
+        }
     });
 
     function drawGameRoom(gameRoom) {
@@ -608,9 +612,15 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
         if (gameRoom.playerList[user.name].hand.cardList.length > 0) {
             $('.player-cards').append('<div id="playerTotal" class="player-total">' + gameRoom.playerList[user.name].hand.cardSum + '</div>')
         }
-
-        $('#bet').html(gameRoom.playerList[user.name].currentBet);
-        $('#money').html(gameRoom.playerList[user.name].balance);
+        if(gameRoom.playerList[user.name].currentBet==0) {
+            gameRoom.playerList[user.name].currentBet = 1000;
+            $('#bet').html(gameRoom.playerList[user.name].currentBet);
+            $('#money').html(gameRoom.playerList[user.name].balance-1000);
+        }
+        else {
+            $('#bet').html(gameRoom.playerList[user.name].currentBet);
+            $('#money').html(gameRoom.playerList[user.name].balance);
+        }
     }
 
     function generateCardDiv(rank, suit) {
