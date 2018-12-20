@@ -612,6 +612,7 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
         if (gameRoom.playerList[user.name].hand.cardList.length > 0) {
             $('.player-cards').append('<div id="playerTotal" class="player-total">' + gameRoom.playerList[user.name].hand.cardSum + '</div>')
         }
+
         if(gameRoom.playerList[user.name].currentBet==0) {
             gameRoom.playerList[user.name].currentBet = 1000;
             $('#bet').html(gameRoom.playerList[user.name].currentBet);
@@ -621,6 +622,14 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             $('#bet').html(gameRoom.playerList[user.name].currentBet);
             $('#money').html(gameRoom.playerList[user.name].balance);
         }
+        if(parseInt($('#money').html()) < 0) {
+            $('#bet').html("All-in");
+            $('#money').html(gameRoom.playerList[user.name].balance);
+            $('#deal').hide();
+            $('#more').hide();
+            $('#less').hide();
+        }
+
     }
 
     function generateCardDiv(rank, suit) {
