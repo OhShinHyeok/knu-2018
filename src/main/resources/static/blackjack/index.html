@@ -492,6 +492,7 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
     var gameRoomId;
     var isStart;
     var isDdown;
+    var previousBet = 1000;
     $('after_login').hide();
     $.ajax({
         type: 'GET',
@@ -543,6 +544,7 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
 
     $('#deal').click(function () {
         var bet = parseInt($('#bet').html());
+        previousBet = bet;
         isStart=true;
         isDdown=false;
         $.ajax({
@@ -678,9 +680,9 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
         }
         $('#amount').html(gameRoom.playerList[user.name].balance);
         if(gameRoom.playerList[user.name].currentBet==0) {
-            gameRoom.playerList[user.name].currentBet = 1000;
+            gameRoom.playerList[user.name].currentBet = previousBet;
             $('#bet').html(gameRoom.playerList[user.name].currentBet);
-            $('#money').html(gameRoom.playerList[user.name].balance-1000);
+            $('#money').html(gameRoom.playerList[user.name].balance-previousBet);
         }
         else {
             $('#bet').html(gameRoom.playerList[user.name].currentBet);
