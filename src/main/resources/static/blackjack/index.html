@@ -438,6 +438,9 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
         <div class="btn" id="stand">Stand</div>
     </div>
     <div class="buttons">
+        <div class="btn" id="Ddown">Double Down</div>
+    </div>
+    <div class="buttons">
         <div class="btn" id="deal">Deal</div>
     </div>
     <div class="betting-area">
@@ -461,6 +464,8 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
 <script>
     var user;
     var gameRoomId;
+    var isStart;
+    var isDdown;
 
     $.ajax({
         type: 'GET',
@@ -501,7 +506,8 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
 
     $('#deal').click(function () {
         var bet = parseInt($('#bet').html());
-
+        isStart=true;
+        isDdown=false;
         $.ajax({
             type: 'POST',
             url: '/api/black-jack/rooms/' + gameRoomId + '/bet',
@@ -528,6 +534,7 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
     })
 
     $('#hit').click(function () {
+        isStart = false;
         $.ajax({
             type: 'POST',
             url: '/api/black-jack/rooms/' + gameRoomId + '/hit',
@@ -544,7 +551,19 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             drawGameRoom(data);
         });
     })
+    $('#Ddown').click(function () {
+        isStart = false;
+        isDdown = true;
+        $('#hit').hide();
+        $('#Ddown').hide();
+        $.ajax({
+            type: 'POST',
+            url: '/api/black-jack/rooms/' + gameRoomId + '/Ddown',
+        }).done(function (data) {
 
+            drawGameRoom(data);
+        });
+    })
     $('#more').click(function () {
         var bet = 100;
         var currentBet = parseInt($('#bet').html());
@@ -581,12 +600,20 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             $('#less').show();
             $('#hit').hide();
             $('#stand').hide();
+            $('#Ddown').hide();
         } else {
             $('#deal').hide();
             $('#more').hide();
             $('#less').hide();
             $('#hit').show();
             $('#stand').show();
+            $('#Ddown').show();
+        }
+        if(isDdown) {
+            $('#hit').hide();
+        }
+        if(!isStart) {
+            $('#Ddown').hide();
         }
 
         $('#nextCards').html("");
@@ -620,6 +647,13 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
         else {
             $('#bet').html(gameRoom.playerList[user.name].currentBet);
             $('#money').html(gameRoom.playerList[user.name].balance);
+        }
+        if(parseInt($('#money').html()) < 0) {
+            $('#bet').html("All-in");
+            $('#money').html(gameRoom.playerList[user.name].balance);
+            $('#deal').hide();
+            $('#more').hide();
+            $('#less').hide();
         }
     }
 
