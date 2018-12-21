@@ -65,4 +65,12 @@ public class Player {
         this.isPlaying = false;
     }
 
+    public void Ddown() {
+        balance -= currentBet;
+        currentBet = currentBet*2;
+
+        hand.drawCard();
+    }
+
+
 }

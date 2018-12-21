@@ -381,6 +381,9 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
         <div class="btn" id="stand">Stand</div>
     </div>
     <div class="buttons">
+        <div class="btn" id="Ddown">Double Down</div>
+    </div>
+    <div class="buttons">
         <div class="btn" id="deal">Deal</div>
     </div>
     <div class="betting-area">
@@ -404,6 +407,8 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
 <script>
     var user;
     var gameRoomId;
+    var isStart;
+    var isDdown;
     $.ajax({
         type: 'GET',
         url: '/api/users/myself',
@@ -441,6 +446,8 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
     })
     $('#deal').click(function () {
         var bet = parseInt($('#bet').html());
+        isStart=true;
+        isDdown=false;
         $.ajax({
             type: 'POST',
             url: '/api/black-jack/rooms/' + gameRoomId + '/bet',
@@ -464,6 +471,7 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
         });
     })
     $('#hit').click(function () {
+        isStart = false;
         $.ajax({
             type: 'POST',
             url: '/api/black-jack/rooms/' + gameRoomId + '/hit',
@@ -476,6 +484,19 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             type: 'POST',
             url: '/api/black-jack/rooms/' + gameRoomId + '/stand',
         }).done(function (data) {
+            drawGameRoom(data);
+        });
+    })
+    $('#Ddown').click(function () {
+        isStart = false;
+        isDdown = true;
+        $('#hit').hide();
+        $('#Ddown').hide();
+        $.ajax({
+            type: 'POST',
+            url: '/api/black-jack/rooms/' + gameRoomId + '/Ddown',
+        }).done(function (data) {
+
             drawGameRoom(data);
         });
     })
@@ -510,12 +531,20 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             $('#less').show();
             $('#hit').hide();
             $('#stand').hide();
+            $('#Ddown').hide();
         } else {
             $('#deal').hide();
             $('#more').hide();
             $('#less').hide();
             $('#hit').show();
             $('#stand').show();
+            $('#Ddown').show();
+        }
+        if(isDdown) {
+            $('#hit').hide();
+        }
+        if(!isStart) {
+            $('#Ddown').hide();
         }
         $('#nextCards').html("");
         gameRoom.deck.cardList.forEach(function(card) {
@@ -555,7 +584,7 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             $('#more').hide();
             $('#less').hide();
         }
-        consol.log(user);
+
     }
     function generateCardDiv(rank, suit) {
         var className = "";

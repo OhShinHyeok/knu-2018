@@ -75,6 +75,15 @@ public class BlackjackService {
         return gameRoom;
     }
 
+    public GameRoom Ddown(String roomId, User user) {
+        GameRoom gameRoom = gameRoomMap.get(roomId);
+
+        gameRoom.Ddown(user.getName());
+
+        updateGameResult(gameRoom);
+        return gameRoom;
+    }
+
     private void updateGameResult(GameRoom gameRoom) {
         if (gameRoom.isFinished()) {
             gameRoom.getPlayerList().forEach((loginId, player) -> {
@@ -93,4 +102,6 @@ public class BlackjackService {
 
         return gameRoom;
     }
+
+
 }
