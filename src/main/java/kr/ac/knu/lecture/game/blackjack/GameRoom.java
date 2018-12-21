@@ -73,6 +73,13 @@ public class GameRoom {
         player.stand();
     }
 
+    public void Ddown(String name) {
+        Player player = playerList.get(name);
+
+        player.Ddown();
+    }
+
+    // 점수를 매기고 게임 종료
     public void playDealer() {
         dealer.play();
         evaluator.evaluate();
