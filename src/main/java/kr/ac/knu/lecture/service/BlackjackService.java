@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -103,5 +104,10 @@ public class BlackjackService {
         return gameRoom;
     }
 
+    public List<User> getPlayers(){
+        System.out.println("서비스까지 오네");
+        System.out.println(userRepository.getUserByAccountNotNull().get(0));
+        return userRepository.getUserByAccountNotNull();
+    }
 
 }

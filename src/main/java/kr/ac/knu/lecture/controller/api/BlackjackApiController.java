@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 /**
  * Created by rokim on 2018. 5. 21..
  */
@@ -67,5 +70,10 @@ public class BlackjackApiController {
     @GetMapping("/rooms/{roomId}")
     public GameRoom getGameRoomData(@PathVariable String roomId) {
         return blackjackService.getGameRoom(roomId);
+    }
+
+    @RequestMapping("/rooms/playerList")
+    public List<User> getPlayerList(){
+        return blackjackService.getPlayers();
     }
 }
