@@ -480,6 +480,9 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
         <span id="money" class="money"></span>
         <div class="clear"></div>
     </div>
+    <div id="ranking" name="ranking">
+        <b>Ranking</b>
+    </div>
 </div>
 </body>
 <script src="/blackjack/jquery-3.3.1.min.js"></script>
@@ -528,6 +531,14 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             $('#after_login').show();
             gameRoomId = data.roomId;
             drawGameRoom(data);
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/black-jack/rooms/playerList',
+            contentType: 'application/json;',
+        }).done(function (data) {
+            drawRanking(data);
         });
     })
 
@@ -683,6 +694,13 @@ height: 100px; width: 100%; background-color: #EEFFEE; opacity: 0.7;">
             $('#deal').hide();
             $('#more').hide();
             $('#less').hide();
+        }
+
+    }
+
+    function drawRanking(data){
+        for(var i = 0; i<data.length; i++){
+            $('#ranking').append('<div>'+data[i].name+', '+data[i].account+'</div>');
         }
     }
 
