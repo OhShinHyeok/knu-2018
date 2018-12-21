@@ -44,7 +44,11 @@ public class Player {
     }
 
     public void win() {
-        balance += currentBet * 2;
+        if(hand.getCardSum()==21){
+            balance += currentBet * 2.5;
+        }
+        else
+            balance += currentBet * 2;
         currentBet = 0;
     }
 
